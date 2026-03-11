@@ -1,5 +1,5 @@
-# Attack Chain: From AMR iMessage to Pegasus‑Linked Persistence  
-Zero‑Click iMessage Exploit Chain · March 2026
+# Attack Chain: From AMR iMessage to Hardware‑Level Bluetooth Pivot  
+**Zero‑Click iMessage Exploit Chain · March 2026**
 
 ---
 
@@ -38,7 +38,7 @@ The write primitive from Stage 2 is not used directly. Instead, the payload embe
 - 4‑byte‑wide instructions, ARM64‑aligned.  
 - 8 virtual registers (V0–V7).  
 - 175 unique opcodes, with 7.1 bits/byte entropy, consistent with LLVM‑compiled bytecode.  
-- Cosine similarity 0.8218 to known Pegasus‑style VMs.
+- Cosine similarity 0.8218 to known Pegasus‑style VM profiles.
 
 The VM executes and its registers converge on `V0 = 0x300016`, a call to `IOConnectCallMethod` targeting selector index `0x16` in the AppleBCMWLAN kernel extension. The same index appears in the `IOBluetoothHCIController` selector table as `HCIWriteLinkPolicy`, indicating a dual‑path use of this selector.
 
@@ -96,13 +96,13 @@ The link between the delivery payload and the installed implant is the **canary 
 - `xTtC2` appears in the encrypted AMR payload.  
 - The same token is recovered from the zombie DSC binary on a fully DFU‑restored device.  
 
-This cross‑stage consistency confirms that the same operation delivered both the payload and the implant.
+This cross‑stage consistency is consistent with **Pegasus‑style / Predator‑linked** device‑locking and beacon‑token architectures, but the payload is not labeled as a specific vendor‑owned spyware in this repo.
 
 Apple issued **CVE‑2026‑20700** in iOS 26.3, acknowledging “memory corruption in dyld allowing r/w in attacks against specific targeted individuals.” The patch does not remove existing implants from already‑infected devices; on at least one device, the iOS 26.3.1 update installed a **second instance** alongside the existing one.
 
 ---
 
-## Stage 6 – C2, Canaries, and Attribution Signals
+## Stage 6 – C2, Canaries, and Operational Patterns
 
 The canary token system functions as a **multi‑tenant operator beacon architecture**:
 
@@ -111,14 +111,14 @@ The canary token system functions as a **multi‑tenant operator beacon architec
 
 If an analyst’s sandbox or detection tool extracts these tokens and contacts C2, the operator receives confirmation that that specific build is under analysis.
 
-Additional evidence‑based indicators:
+Additional evidence‑based indicators consistent with **Pegasus‑style / Predator‑linked** operators:
 
-- **Device‑locked runtime key** – no static key in the payload; the key is derived from the target UDID/ECID, making captured samples inert on other devices.  
-- **VM‑style custom bytecode** – LLVM‑compiled VM with 0.8218 cosine similarity to known Pegasus VMs, indicating shared engineering choices.  
-- **iMessage delivery lineage** – follows the same zero‑click architecture as FORCEDENTRY (JBIG2) and BLASTPASS (WebP), previously attributed to NSO‑linked Pegasus.  
-- **C2 and persistence model** – stable C2 endpoint `200.152.70.35:443`, UUID rotation after update, and SSV‑persistence with active version management, consistent with a mature commercial surveillance vendor.
+- **Device‑locked payload** – no static key in the payload; the key is derived from the target UDID/ECID, making captured samples inert on other devices.  
+- **VM‑style custom bytecode** – LLVM‑compiled VM with 0.8218 cosine similarity to known Pegasus‑style VMs, indicating shared engineering choices.  
+- **iMessage zero‑click delivery architecture** – follows the same delivery model as FORCEDENTRY (JBIG2) and BLASTPASS (WebP), previously associated with similar commercial‑surveillance models.  
+- **C2 and persistence model** – stable C2 endpoint `200.152.70.35:443`, UUID rotation after update, and SSV‑level persistence with active version management, consistent with a mature surveillance vendor.
 
-Across eight independent evidence items, all are consistent with Pegasus and none are inconsistent. **Attribution: Pegasus‑linked payload, high confidence.**
+None of these features are unique to a single vendor, but their **convergence** is consistent with documented Pegasus‑style / Predator‑linked patterns.
 
 ---
 
@@ -137,5 +137,5 @@ For confirmed infections, there is **no public remediation path**; analysts shou
 ## Next steps in the repo
 
 - `bcm4387-coex-window.md` – focused hardware‑level analysis of the BCM4387 coexistence SRAM, IOMMU‑boundary layout, and remediation proposals.  
-- `attribution.md` – consolidated evidence matrix and Pegasus‑attribution rationale (including log‑based anomalies from your own analysis).  
+- `attribution.md` – consolidated evidence matrix and Pegasus‑style / Predator‑linked tactic alignment.  
 - `iocs.md` – full list of hashes, IPs, tokens, offsets, and encoded strings.
