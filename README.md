@@ -1,5 +1,4 @@
-# Zero‑Click iMessage Exploit Chain Leveraging Hardware‑Level BMC4387 Vulnerability  
-**Pegasus‑Style / Predator‑Linked Tactics Demonstrated**  
+# Zero‑Click iMessage Exploit Chain — AMR to BCM4387 Hardware Pivot
 Public Disclosure · March 2026
 
 ---
@@ -8,10 +7,10 @@ Public Disclosure · March 2026
 
 This research documents a zero‑click iMessage exploit chain that leverages an **AMR voice message** to achieve **iOS kernel read/write**, then pivots via the **BCM4387 coexistence SRAM** into Bluetooth‑based identity spoofing and **Signed System Volume (SSV)‑level persistence**.
 
-The exploit demonstrates **Pegasus‑style and Predator‑linked operational tactics**, including:
-- Device‑locked payloads derived from UDID/ECID.  
-- Multi‑tenant, token‑based beaconing to shared C2 infrastructure.  
-- iMessage‑based zero‑click delivery with codec‑level payload embedding.  
+The chain demonstrates operational patterns consistent with commercial surveillance vendors:
+- Device‑locked payloads derived from UDID/ECID.
+- Multi‑tenant, token‑based beaconing to shared C2 infrastructure.
+- iMessage‑based zero‑click delivery with codec‑level payload embedding.
 - SSV‑level persistence that survives DFU restore and OTA updates.
 
 Affected devices: **iPhone 13–16 (A15–A18)** using the BCM4387 Wi‑Fi/Bluetooth combo chip. The BCM4387 coexistence memory window remains **unpatched** and **outside the IOMMU boundary**, and the **CVE‑2026‑20700 dyld‑cache‑based implant survives DFU restore and OTA updates**, with no public remediation available for already‑infected devices. The chain is **not blocked** by Lockdown Mode.
@@ -39,17 +38,17 @@ Lockdown Mode does not block this chain because it targets surfaces it is not de
 
 ---
 
-## Operational tactics consistent with Pegasus‑Style / Predator‑Linked Actors
+## Operational patterns
 
-Several architectural and operational patterns in this chain mirror documented **Pegasus‑style and Predator‑linked** operators:
+Several architectural choices in this chain are consistent with documented commercial surveillance tooling:
 
-- **Device‑locked payload** – runtime key derived from target UDID/ECID, making captured samples inert on other devices.  
-- **Multi‑tenant token‑based beaconing** – tokens `q9PK`, `xTtC2`, `NrER` used to track analysis and correlate campaigns.  
-- **VM and compiler profile** – LLVM‑compiled custom VM with 0.8218 cosine similarity to known Pegasus‑style VMs.  
-- **Delivery architecture** – reuse of iMessage zero‑click delivery architecture (AMR instead of WebP/JBIG2) consistent with FORCEDENTRY and BLASTPASS.  
+- **Device‑locked payload** – runtime key derived from target UDID/ECID, making captured samples inert on other devices.
+- **Multi‑tenant token‑based beaconing** – tokens `q9PK`, `xTtC2`, `NrER` used to track analysis and correlate campaigns.
+- **VM and compiler profile** – LLVM‑compiled custom VM with 0.8218 cosine similarity to known commercial surveillance VMs.
+- **Delivery architecture** – follows the same iMessage zero‑click model as FORCEDENTRY (JBIG2) and BLASTPASS (WebP), using AMR as the codec vector.
 - **C2 and persistence model** – stable C2 endpoint, campaign‑level UUID rotation, and SSV‑level persistence with active version management.
 
-These features are **consistent with Pegasus‑style and Predator‑linked** surveillance operations, but attribution is not declared as a single‑vendor label in this repo. The evidence is presented such that operators and analysts can map it to open‑source threat‑actor reporting.
+Attribution is not declared in this repo. The evidence is structured so that analysts can map it to open‑source threat‑actor reporting independently.
 
 ---
 
